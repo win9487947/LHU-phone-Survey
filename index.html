@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大學生手機使用習慣調查</title>
+<meta name="description" content="大學生手機使用習慣與學習專注度調查問卷（期中小組報告）">
+<style>
+/* ====== 設定區：架設前請修改 script 區塊最上方的 CONFIG ====== */
+:root{
+  --bg:#f4f6f8; --card:#ffffff; --text:#1d2329; --muted:#5b6670; --line:#dde3e8;
+  --accent:#2463eb; --accent-soft:#e8efff; --accent-text:#ffffff; --error:#c62828; --error-soft:#fdecec;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111418; --card:#1b2026; --text:#e7ebef; --muted:#9aa5b0; --line:#2e353d;
+    --accent:#6e9bff; --accent-soft:#1f2c47; --accent-text:#0d1320; --error:#ff7b7b; --error-soft:#3a1f22;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111418; --card:#1b2026; --text:#e7ebef; --muted:#9aa5b0; --line:#2e353d;
+  --accent:#6e9bff; --accent-soft:#1f2c47; --accent-text:#0d1320; --error:#ff7b7b; --error-soft:#3a1f22;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.7;font-size:16px}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 64px}
+.progress{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px}
+.progress-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress-bar span{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.progress-text{font-size:13px;color:var(--muted);margin-top:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px 20px;margin-bottom:16px}
+.card.head{border-top:8px solid var(--accent)}
+h1{font-size:24px;line-height:1.4;margin:0 0 12px}
+h2{font-size:20px;line-height:1.4;margin:0 0 8px}
+p{margin:0 0 12px}
+.muted{color:var(--muted);font-size:14px}
+.members{background:var(--accent-soft);border-radius:8px;padding:12px 14px;margin-top:12px}
+.notice{font-size:15px;max-height:none}
+.notice ol{padding-left:22px;margin:4px 0 12px}
+.notice h3{font-size:16px;margin:14px 0 4px}
+.q{scroll-margin-top:70px}
+.q-title{font-weight:600;margin-bottom:10px}
+.req{color:var(--error);margin-left:2px}
+.hint{font-size:14px;color:var(--muted);margin:-6px 0 10px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer}
+.opt:hover{background:var(--accent-soft)}
+.opt input{margin-top:6px;accent-color:var(--accent);width:18px;height:18px;flex:none}
+select,textarea{width:100%;font:inherit;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{min-height:110px;resize:vertical}
+.scale-ends{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:4px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale label{position:relative}
+.scale input{position:absolute;opacity:0;inset:0}
+.scale span{display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:44px;border:1px solid var(--line);
+  border-radius:8px;cursor:pointer;font-weight:600;font-size:15px;line-height:1.2;text-align:center;padding:4px}
+.scale span small{font-weight:400;font-size:11px;color:var(--muted)}
+.scale input:checked + span{background:var(--accent);border-color:var(--accent);color:var(--accent-text)}
+.scale input:checked + span small{color:var(--accent-text)}
+.scale input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+.matrix-row{padding:14px 0;border-top:1px solid var(--line)}
+.matrix-row:first-of-type{border-top:0;padding-top:4px}
+.matrix-row .stmt{margin-bottom:8px}
+.matrix-row.missing .stmt{color:var(--error)}
+.err{display:none;color:var(--error);font-size:14px;margin-top:8px}
+.q.invalid{border-color:var(--error);background:linear-gradient(var(--error-soft),var(--error-soft)) top/100% 4px no-repeat, var(--card)}
+.q.invalid .err{display:block}
+.nav{display:flex;gap:12px;justify-content:space-between;margin-top:8px}
+button{font:inherit;font-weight:600;border-radius:8px;padding:12px 22px;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--text)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-text);margin-left:auto}
+button:disabled{opacity:.6;cursor:wait}
+.step{display:none}
+.step.active{display:block}
+.banner{background:#fff4d6;color:#5c4400;border:1px solid #f0d27a;border-radius:8px;padding:10px 14px;font-size:14px;margin-bottom:12px}
+footer{text-align:center;font-size:13px;color:var(--muted);margin-top:24px}
+@media (max-width:480px){
+  .card{padding:20px 16px}
+  h1{font-size:21px}
+  .scale span{font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="demo-banner" class="banner" hidden>預覽模式：尚未設定回覆收集網址（SCRIPT_URL），送出的答案只會顯示在瀏覽器主控台，不會被儲存。</div>
+  <div class="progress" id="progress" hidden>
+    <div class="progress-bar"><span id="progress-fill"></span></div>
+    <div class="progress-text" id="progress-text"></div>
+  </div>
+  <form id="survey" novalidate></form>
+  <footer>資料分析與視覺化 期中小組報告　·　D1144241015 王睿朋　·　D1144241019 黃永鈞</footer>
+</div>
+
+<script>
+/* ===================== 架設前請修改這裡 ===================== */
+const CONFIG = {
+  // 部署 Google Apps Script 後取得的「網頁應用程式網址」，貼在引號內
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbygthoDtoL_7zFk69S8iZnkPP3b6jJnR5yhj8R6oKJSxzio9GDgfubm4V2XNbVef87xbQ/exec",
+  // 小組聯絡信箱
+  CONTACT_EMAIL: "win9487947@gmail.com",
+  // 課程名稱
+  COURSE: "資料分析與視覺化"
+};
+/* =========================================================== */
+
+const MEMBERS = "D1144241015 王睿朋、D1144241019 黃永鈞";
+const AGREE = ["非常不同意","不同意","普通","同意","非常同意"];
+const HOURS = ["未滿 2 小時","2～4 小時","4～6 小時","6～8 小時","8 小時以上"];
+
+/* 每個 step 是一頁；questions 依序渲染。key 會成為試算表的欄位名稱。 */
+const STEPS = [
+  { title:null, html:`
+    <div class="card head">
+      <h1>大學生手機使用習慣與學習專注度調查問卷</h1>
+      <p>親愛的同學您好：</p>
+      <p>感謝您撥出寶貴的時間填寫本問卷！我們是「${CONFIG.COURSE}」課程的期中報告小組，本問卷想了解大學生平日的手機使用習慣，以及手機使用與上課、讀書專注度之間的關係。</p>
+      <p>本問卷採<strong>匿名</strong>填答，共 19 題，預計需時 <strong>5 分鐘</strong>。答案沒有對錯，請依您的實際情況作答。所有資料僅供本課程學術分析使用，絕不作其他用途。</p>
+      <p>若對問卷有任何疑問，歡迎與我們聯繫。再次感謝您的協助！</p>
+      <div class="members">調查小組成員：<br>D1144241015 王睿朋<br>D1144241019 黃永鈞<br><span class="muted">聯絡信箱：${CONFIG.CONTACT_EMAIL}</span></div>
+    </div>`, next:"開始填答" },
+
+  { title:"個人資料蒐集、處理及利用告知聲明", html:`
+    <div class="card notice">
+      <h2>個人資料蒐集、處理及利用告知聲明</h2>
+      <p>依據「個人資料保護法」（以下簡稱個資法）第 8 條規定，在您填答前，請詳閱以下事項：</p>
+      <h3>一、蒐集者</h3>
+      <p>「${CONFIG.COURSE}」課程期中報告小組（組員：${MEMBERS}）。</p>
+      <h3>二、蒐集目的</h3>
+      <p>僅供本課程期中報告之學術研究與統計分析使用（個資法特定目的代號 157：調查、統計與研究分析）。</p>
+      <h3>三、個人資料類別</h3>
+      <p>本問卷不蒐集姓名、學號、電話、電子郵件等可直接識別個人之資料，僅蒐集性別、年級、學院、住宿型態等統計性資料及您對題目的回答。</p>
+      <h3>四、利用期間、地區、對象及方式</h3>
+      <ol>
+        <li>期間：自填答日起至本學期結束為止，屆時將刪除所有原始回答資料。</li>
+        <li>地區：中華民國（臺灣）境內。資料存放於小組之 Google 試算表。</li>
+        <li>對象：僅限本小組成員及授課教師。</li>
+        <li>方式：以整體統計方式呈現（如百分比、平均數、圖表），不會公開任何個別回答，亦不提供給第三人或作商業用途。</li>
+      </ol>
+      <h3>五、您的權利</h3>
+      <p>依個資法第 3 條，您可就您的個人資料行使查詢或請求閱覽、請求製給複製本、請求補充或更正、請求停止蒐集處理或利用、請求刪除等權利。由於本問卷為匿名，我們無法辨識個別填答者，如有需求請來信聯繫（${CONFIG.CONTACT_EMAIL}），我們將盡力協助。</p>
+      <h3>六、不提供資料之影響</h3>
+      <p>您可自由選擇是否填答，且可隨時中途離開，不會對您產生任何不利影響。若不同意，將無法納入本次分析。</p>
+    </div>`,
+    questions:[
+      {key:"q01_同意個資告知", type:"radio", required:true,
+       label:"我已閱讀並了解上述個人資料蒐集告知事項，是否同意在上述範圍內提供填答資料？",
+       options:["我同意，繼續填答","我不同意"], endIf:{"我不同意":"declined"}},
+      {key:"q02_是否為大學部學生", type:"radio", required:true,
+       label:"您目前是否為大學部在學學生？", options:["是","否"], endIf:{"否":"ineligible"}}
+    ]},
+
+  { title:"基本資料", intro:"以下為基本資料，僅用於分組統計，無法辨識您的身分。",
+    questions:[
+      {key:"q03_性別", type:"radio", required:true, label:"您的生理性別", options:["男","女","不願透露"]},
+      {key:"q04_年級", type:"radio", required:true, label:"您目前的年級", options:["大一","大二","大三","大四","延畢"]},
+      // 學院選項請依學校實際名稱修改
+      {key:"q05_學院", type:"select", required:true, label:"您就讀的學院",
+       options:["商管學院","其他"]},
+      {key:"q06_住宿型態", type:"radio", required:true, label:"您目前的住宿型態", options:["住家裡","學校宿舍","校外租屋","其他"]},
+      {key:"q07_每週打工時數", type:"radio", required:true, label:"您目前每週打工時數", options:["沒有打工","未滿 10 小時","10～20 小時","超過 20 小時"]}
+    ]},
+
+  { title:"手機使用習慣", intro:"請回想您最近一個月的實際情況作答。可打開手機的「螢幕使用時間」（iPhone）或「數位健康」（Android）參考。",
+    questions:[
+      {key:"q08_平日每日手機時數", type:"radio", required:true, label:"您平日（週一至週五）每天平均使用手機幾小時？", options:HOURS},
+      {key:"q09_假日每日手機時數", type:"radio", required:true, label:"您假日每天平均使用手機幾小時？", options:HOURS},
+      {key:"q10_最常用途", type:"checkbox", required:true, max:3, label:"您最常用手機做什麼？（最多選 3 項）",
+       options:["社群媒體（Instagram、Threads、Facebook）","通訊軟體（LINE、Messenger、Discord）","短影音（TikTok、Reels、YouTube Shorts）",
+                "影音串流（YouTube、Netflix）","手機遊戲","學習或查資料（含 AI 工具）","網路購物","其他"]},
+      {key:"q11_上課拿起手機頻率", type:"radio", required:true, label:"上課時，您平均多久會拿起手機一次（非課程需要）？",
+       options:["整堂課幾乎不碰","約 30 分鐘以上一次","約 10～30 分鐘一次","約 10 分鐘內就會拿起"]},
+      {key:"q12_睡前使用時間", type:"radio", required:true, label:"您睡前通常會使用手機多久？",
+       options:["不使用","未滿 30 分鐘","30 分鐘～1 小時","1 小時以上"]},
+      {key:"q13_手機依賴程度", type:"scale", required:true, label:"您覺得自己對手機的依賴程度？", low:"完全不依賴", high:"非常依賴"}
+    ]},
+
+  { title:"學習專注度與生活影響", intro:"請依您對每句話的同意程度作答：1 = 非常不同意，2 = 不同意，3 = 普通，4 = 同意，5 = 非常同意。",
+    questions:[
+      {key:"q14", type:"matrix", required:true, label:"上課與讀書專注度", rows:[
+        "上課時我常因為看手機而錯過老師講的重點",
+        "讀書時只要手機一響，我就會忍不住去看",
+        "我常說「只看一下」，結果滑了很久",
+        "我能專心讀書 30 分鐘以上而不碰手機",          // 14-4 反向題，分析時反轉計分（6 - 分數）
+        "手機使用讓我的作業或報告常拖到最後才完成",
+        "將手機放遠或開啟勿擾模式，我的學習效率會變好"]},
+      {key:"q15", type:"matrix", required:true, label:"生活影響", rows:[
+        "我常因為滑手機而比預計的時間更晚睡",
+        "我早上第一節課常覺得精神不濟",
+        "沒帶手機出門時，我會感到焦慮或不安",
+        "請在本題選擇「同意」",                          // 15-4 注意力檢核題，未選 4 的問卷可剔除
+        "我曾經想減少使用手機的時間，但沒有成功"]},
+      {key:"q16_手機對學業影響", type:"scale", required:true, label:"整體而言，您覺得手機對您的學業表現影響為何？", low:"非常負面", high:"非常正面"},
+      {key:"q17_上學期平均成績", type:"radio", required:true, label:"您上學期的學期平均成績大約落在？",
+       options:["90 分以上","80～89 分","70～79 分","60～69 分","60 分以下","大一上學期，尚無成績"]}
+    ]},
+
+  { title:"開放題", intro:"以下兩題為選填，您的想法對我們很有幫助。",
+    questions:[
+      {key:"q18_專注小方法", type:"textarea", required:false, label:"您有沒有自己減少手機干擾、提升專注的小方法？歡迎分享。"},
+      {key:"q19_建議", type:"textarea", required:false, label:"對本問卷或本研究主題，您還有什麼想法或建議？"}
+    ], next:"送出問卷"}
+];
+
+const ENDINGS = {
+  done: `<div class="card head"><h1>感謝您的填答！</h1>
+    <p>您的回覆已成功送出，衷心感謝您的耐心填答！</p>
+    <p>您提供的寶貴意見將僅用於本課程期中報告之統計分析，所有資料均以匿名方式處理，並依個人資料保護法妥善保管，於學期結束後刪除。</p>
+    <p>祝您學業順利、天天好心情！</p>
+    <div class="members">調查小組：${MEMBERS} 敬上</div></div>`,
+  declined: `<div class="card head"><h1>感謝您的閱讀</h1>
+    <p>您選擇不同意提供資料，本問卷將不會蒐集您的任何回答。</p>
+    <p>謝謝您撥空閱讀，祝您學業順利、天天好心情！</p>
+    <div class="members">調查小組：${MEMBERS} 敬上</div></div>`,
+  ineligible: `<div class="card head"><h1>感謝您的協助</h1>
+    <p>本問卷的調查對象為大學部在學學生，因此您不需要繼續填答，也不會留下任何回答。</p>
+    <p>謝謝您撥空參與，祝您一切順心！</p>
+    <div class="members">調查小組：${MEMBERS} 敬上</div></div>`
+};
+
+/* ===================== 以下為程式，一般不需修改 ===================== */
+const form = document.getElementById("survey");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let qNo = 0;
+
+function renderQuestion(q){
+  qNo++;
+  const n = qNo, id = q.key;
+  const star = q.required ? '<span class="req" aria-hidden="true">*</span>' : '';
+  let body = "", err = "此題為必填";
+  if (q.type === "radio" || q.type === "checkbox"){
+    body = q.options.map((o,i) => `<label class="opt"><input type="${q.type}" name="${id}" value="${esc(o)}" id="${id}_${i}"><span>${esc(o)}</span></label>`).join("");
+    if (q.max) err = `請選擇 1 至 ${q.max} 項`;
+  } else if (q.type === "select"){
+    body = `<select name="${id}" aria-label="${esc(q.label)}"><option value="">請選擇</option>${q.options.map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;
+  } else if (q.type === "scale"){
+    body = `<div class="scale" role="radiogroup">${[1,2,3,4,5].map(v=>`<label><input type="radio" name="${id}" value="${v}" aria-label="${v} 分"><span>${v}</span></label>`).join("")}</div>
+            <div class="scale-ends"><span>1 ${esc(q.low)}</span><span>5 ${esc(q.high)}</span></div>`;
+  } else if (q.type === "matrix"){
+    body = q.rows.map((r,i) => {
+      const name = `${id}_${i+1}`;
+      return `<div class="matrix-row" data-row="${name}"><div class="stmt">${n}-${i+1}　${esc(r)}</div>
+        <div class="scale" role="radiogroup" aria-label="${esc(r)}">${AGREE.map((a,j)=>`<label><input type="radio" name="${name}" value="${j+1}"><span>${j+1}<small>${a}</small></span></label>`).join("")}</div></div>`;
+    }).join("");
+    err = "每一列都需要作答，紅字的題目尚未填寫";
+  } else if (q.type === "textarea"){
+    body = `<textarea name="${id}" placeholder="您的回答" aria-label="${esc(q.label)}"></textarea>`;
+  }
+  const hint = q.type === "checkbox" && q.max ? "" : "";
+  return `<div class="card q" data-key="${id}">
+    <div class="q-title">${n}. ${esc(q.label)}${star}${q.required?"":' <span class="muted">（選填）</span>'}</div>${hint}
+    ${body}<div class="err" role="alert">${err}</div></div>`;
+}
+
+const stepEls = STEPS.map((s, i) => {
+  const el = document.createElement("section");
+  el.className = "step";
+  let html = s.html || "";
+  if (!s.html && s.title){
+    html += `<div class="card head"><h2>${esc(s.title)}</h2>${s.intro?`<p class="muted" style="margin:0">${esc(s.intro)}</p>`:""}</div>`;
+  }
+  (s.questions||[]).forEach(q => html += renderQuestion(q));
+  html += `<div class="nav">${i>1?'<button type="button" data-act="back">上一頁</button>':""}
+           <button type="button" class="primary" data-act="next">${s.next || "下一頁"}</button></div>`;
+  el.innerHTML = html;
+  form.appendChild(el);
+  return el;
+});
+const endEl = document.createElement("section");
+endEl.className = "step";
+form.appendChild(endEl);
+
+let cur = 0;
+function show(i){
+  stepEls.forEach((el,k)=>el.classList.toggle("active", k===i));
+  endEl.classList.remove("active");
+  cur = i;
+  const total = STEPS.length - 1;
+  document.getElementById("progress").hidden = i === 0;
+  document.getElementById("progress-fill").style.width = `${Math.round(i/total*100)}%`;
+  document.getElementById("progress-text").textContent = `第 ${i} / ${total} 頁　${STEPS[i].title || ""}`;
+  window.scrollTo({top:0});
+}
+function end(kind){
+  stepEls.forEach(el=>el.classList.remove("active"));
+  endEl.innerHTML = ENDINGS[kind];
+  endEl.classList.add("active");
+  document.getElementById("progress").hidden = true;
+  window.scrollTo({top:0});
+}
+
+function getValue(q){
+  if (q.type === "checkbox") return [...form.querySelectorAll(`[name="${q.key}"]:checked`)].map(x=>x.value);
+  if (q.type === "matrix") return q.rows.map((_,i)=>{ const c = form.querySelector(`[name="${q.key}_${i+1}"]:checked`); return c ? c.value : ""; });
+  if (q.type === "select" || q.type === "textarea") return form.querySelector(`[name="${q.key}"]`).value.trim();
+  const c = form.querySelector(`[name="${q.key}"]:checked`); return c ? c.value : "";
+}
+function validate(step){
+  let first = null;
+  (step.questions||[]).forEach(q=>{
+    const box = form.querySelector(`.q[data-key="${q.key}"]`);
+    const v = getValue(q);
+    let ok = true;
+    if (q.type === "matrix"){
+      v.forEach((x,i)=>box.querySelector(`[data-row="${q.key}_${i+1}"]`).classList.toggle("missing", q.required && !x));
+      ok = !q.required || v.every(Boolean);
+    } else if (q.type === "checkbox"){
+      ok = (!q.required || v.length>0) && (!q.max || v.length<=q.max);
+    } else ok = !q.required || !!v;
+    box.classList.toggle("invalid", !ok);
+    if (!ok && !first) first = box;
+  });
+  if (first) first.scrollIntoView({behavior:"smooth", block:"start"});
+  return !first;
+}
+// 選答後即時清除錯誤提示
+form.addEventListener("change", e=>{
+  const box = e.target.closest(".q"); if (!box) return;
+  const row = e.target.closest(".matrix-row"); if (row) row.classList.remove("missing");
+  if (!box.querySelector(".matrix-row.missing")) box.classList.remove("invalid");
+  // 複選上限
+  const q = STEPS.flatMap(s=>s.questions||[]).find(x=>x.key===box.dataset.key);
+  if (q && q.type==="checkbox" && q.max){
+    const checked = box.querySelectorAll("input:checked").length;
+    box.querySelectorAll("input:not(:checked)").forEach(x=>x.disabled = checked>=q.max);
+  }
+});
+
+function collect(){
+  const data = {};
+  STEPS.flatMap(s=>s.questions||[]).forEach(q=>{
+    const v = getValue(q);
+    if (q.type === "matrix") v.forEach((x,i)=>data[`${q.key}_${i+1}`] = x);
+    else if (Array.isArray(v)) data[q.key] = v.join("、");
+    else data[q.key] = v;
+  });
+  return data;
+}
+
+async function submit(btn){
+  const data = collect();
+  data["_欄位順序"] = Object.keys(data).join(",");
+  if (!CONFIG.SCRIPT_URL){ console.log("預覽模式，未送出：", data); end("done"); return; }
+  btn.disabled = true; btn.textContent = "送出中…";
+  try{
+    await fetch(CONFIG.SCRIPT_URL, {method:"POST", mode:"no-cors", body:new URLSearchParams(data)});
+    end("done");
+  }catch(e){
+    btn.disabled = false; btn.textContent = "送出問卷";
+    alert("網路連線有問題，送出失敗，請稍後再按一次「送出問卷」。");
+  }
+}
+
+form.addEventListener("click", e=>{
+  const btn = e.target.closest("button[data-act]"); if (!btn) return;
+  if (btn.dataset.act === "back"){ show(cur-1); return; }
+  const step = STEPS[cur];
+  if (!validate(step)) return;
+  for (const q of step.questions||[]){
+    if (q.endIf){ const v = getValue(q); if (q.endIf[v]) { end(q.endIf[v]); return; } }
+  }
+  if (cur === STEPS.length-1) submit(btn); else show(cur+1);
+});
+
+if (!CONFIG.SCRIPT_URL) document.getElementById("demo-banner").hidden = false;
+show(0);
+</script>
+</body>
+</html>
